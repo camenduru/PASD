@@ -33,7 +33,7 @@ pretrained_model_path = "checkpoints/stable-diffusion-v1-5"
 ckpt_path = "runs/pasd/checkpoint-100000"
 #dreambooth_lora_path = "checkpoints/personalized_models/toonyou_beta3.safetensors"
 dreambooth_lora_path = "checkpoints/personalized_models/majicmixRealistic_v6.safetensors"
-#dreambooth_lora_path = "checkpoints/personalized_models/Realistic_Vision_V5.1.safetensors"
+#dreambooth_lora_path = "checkpoints/personalized_models/realisticVisionV60B1_v60B1VAE.safetensors"
 weight_dtype = torch.float16
 device = "cuda"
 
