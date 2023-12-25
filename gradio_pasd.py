@@ -95,8 +95,8 @@ def inference(input_image, prompt, a_prompt, n_prompt, denoise_steps, upscale, a
         rscale = upscale
         input_image = input_image.resize((input_image.size[0]*rscale, input_image.size[1]*rscale))
         
-        if min(validation_image.size) < process_size:
-            validation_image = resize_preproc(validation_image)
+        if min(input_image.size) < process_size:
+            input_image = resize_preproc(input_image)
 
         input_image = input_image.resize((input_image.size[0]//8*8, input_image.size[1]//8*8))
         width, height = input_image.size
@@ -141,8 +141,10 @@ demo = gr.Interface(
     article=article,
     examples=examples).queue(concurrency_count=1)
 
-demo.launch(
-    server_name="0.0.0.0" if os.getenv('GRADIO_LISTEN', '') != '' else "127.0.0.1",
-    share=True,
-    root_path=f"/{os.getenv('GRADIO_PROXY_PATH')}" if os.getenv('GRADIO_PROXY_PATH') else ""
-)
+# demo.launch(
+#     server_name="0.0.0.0" if os.getenv('GRADIO_LISTEN', '') != '' else "127.0.0.1",
+#     share=True,
+#     root_path=f"/{os.getenv('GRADIO_PROXY_PATH')}" if os.getenv('GRADIO_PROXY_PATH') else ""
+# )
+
+demo.queue().launch(inline=False, share=True, debug=True)
