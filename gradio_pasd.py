@@ -1,6 +1,7 @@
 import os
 import einops
 import gradio as gr
+from gradio_imageslider import ImageSlider
 import numpy as np
 import torch
 import random
@@ -117,7 +118,7 @@ def inference(input_image, prompt, a_prompt, n_prompt, denoise_steps, upscale, a
             print(e)
             image = Image.new(mode="RGB", size=(512, 512))
 
-    return image
+    return (input_image, image)
 
 title = "Pixel-Aware Stable Diffusion for Real-ISR"
 description = "Gradio Demo for PASD Real-ISR. To use it, simply upload your image, or click one of the examples to load them."
@@ -135,11 +136,12 @@ demo = gr.Interface(
             gr.Slider(label="Conditioning Scale", minimum=0.5, maximum=1.5, value=1.1, step=0.1),
             gr.Slider(label="Classier-free Guidance", minimum=0.1, maximum=10.0, value=7.5, step=0.1),
             gr.Slider(label="Seed", minimum=-1, maximum=2147483647, step=1, randomize=True)],
-    outputs=gr.Image(type="pil"),
+    # outputs=gr.Image(type="pil"),
+    outputs = ImageSlider(show_label=False, type="pil"),
     title=title,
     description=description,
     article=article,
-    examples=examples).queue(concurrency_count=1)
+    examples=examples).queue()
 
 # demo.launch(
 #     server_name="0.0.0.0" if os.getenv('GRADIO_LISTEN', '') != '' else "127.0.0.1",
@@ -147,4 +149,4 @@ demo = gr.Interface(
 #     root_path=f"/{os.getenv('GRADIO_PROXY_PATH')}" if os.getenv('GRADIO_PROXY_PATH') else ""
 # )
 
-demo.queue().launch(inline=False, share=True, debug=True)
+demo.launch(inline=False, share=True, debug=True)
